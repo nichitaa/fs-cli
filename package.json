@@ -1,0 +1,29 @@
+{
+  "name": "fs-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc && npm i -g . && so --help"
+  },
+  "bin": {
+    "so": "./build/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mkdirp": "^1.0.2",
+    "@types/get-folder-size": "^3.0.1",
+    "@types/yargs": "^17.0.5",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "fast-folder-size": "^1.5.0",
+    "get-folder-size": "^3.1.0",
+    "mkdirp": "^1.0.4",
+    "util": "^0.12.4",
+    "yargs": "^17.2.1"
+  }
+}
