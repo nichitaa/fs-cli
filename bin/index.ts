@@ -1,6 +1,10 @@
 #! /usr/bin/env node
 
-import yargs from 'yargs';
+/**
+ * <author> Pasecinic Nichita
+ * */
+
+import * as yargs from 'yargs';
 import {CommandsCli} from './enums';
 import Commands from './commands';
 
@@ -12,8 +16,7 @@ const options = yargs
     .argv;
 
 
-// @ts-ignore
-if (yargs.argv.c == true || yargs.argv.commands == true) {
+if ((yargs.argv as any).c == true || (yargs.argv as any).commands == true) {
     console.log('\nAvailable commands: ');
     console.log(`${CommandsCli.LDIR} - list the content of current working directory ( :> so ${CommandsCli.LDIR} )`);
     console.log(`${CommandsCli.NDIR} - create new folder in current working directory ( :> so ${CommandsCli.NDIR} folder/otherFolder )`);
@@ -23,23 +26,30 @@ if (yargs.argv.c == true || yargs.argv.commands == true) {
 
 const main = async () => {
 
-    // @ts-ignore
-    const command: CommandsCli = yargs.argv._[0];
+    if ((yargs.argv as any)._.length !== 0) {
 
-    const controller: Commands = Commands.getInstance();
+        const command: CommandsCli = (yargs.argv as any)._[0];
+        const controller: Commands = Commands.getInstance();
 
-    switch (command) {
-        case CommandsCli.LDIR: {
-            return await controller.ldir();
+        if (!Object.values(CommandsCli).includes(command)) {
+            console.log(`Invalid command - ${command} , please use - so --commands to see all available commands!`);
+        } else {
+            switch (command) {
+                case CommandsCli.LDIR: {
+                    return await controller.ldir();
+                }
+                case CommandsCli.NDIR: {
+                    return await controller.ndir((yargs.argv as any));
+                }
+                case CommandsCli.NFILE: {
+                    return await controller.nfile((yargs.argv as any));
+                }
+                default: {
+                    return false;
+                }
+            }
         }
-        case CommandsCli.NDIR: {
-            // @ts-ignore
-            return await controller.ndir(yargs.argv._);
-        }
-        case CommandsCli.NFILE: {
-            // @ts-ignore
-            return await controller.nfile(yargs.argv._);
-        }
+
     }
 
 };
